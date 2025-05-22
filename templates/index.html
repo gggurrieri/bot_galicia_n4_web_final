@@ -58,15 +58,22 @@
     label {
       font-weight: bold;
     }
+    #loading {
+      text-align: center;
+      color: #555;
+      font-style: italic;
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body>
   <h1>🧠 Bot calificador de URLs N4</h1>
 
-  <form method="POST">
+  <form method="POST" onsubmit="mostrarCargando()">
     <label for="cantidad">¿Cuántas URLs querés calificar?</label>
     <input type="number" name="cantidad" id="cantidad" value="5" min="1" max="100" required />
     <button type="submit">▶ Ejecutar</button>
+    <p id="loading" style="display:none;">⏳ Procesando... por favor esperá</p>
   </form>
 
   <p><strong>Estado:</strong> {{ status }}</p>
@@ -75,5 +82,11 @@
     <h3>Resultado:</h3>
     <pre>{{ resumen }}</pre>
   {% endif %}
+
+  <script>
+    function mostrarCargando() {
+      document.getElementById("loading").style.display = "block";
+    }
+  </script>
 </body>
 </html>
