@@ -1,6 +1,7 @@
 
 from flask import Flask, render_template, request
 from calificador import calificar_urls, get_status
+import os
 
 app = Flask(__name__)
 
@@ -15,8 +16,6 @@ def index():
     return render_template("index.html", resumen=resumen, status=status)
 
 if __name__ == "__main__":
-    import os
     port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
-
-
+    debug_mode = os.environ.get("FLASK_DEBUG", "false").lower() == "true"
+    app.run(host="0.0.0.0", port=port, debug=debug_mode)
