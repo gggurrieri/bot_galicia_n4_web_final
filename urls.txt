@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 https://ayudaempresas.galicia.ar/AyudajuridicaSPA/ini/n4/como-doy-de-alta-un-convenio-masivos-pagos
 https://ayudaempresas.galicia.ar/AyudajuridicaSPA/ini/n4/como-descargo-el-archivo-de-pagos
 =======
@@ -261,4 +260,3 @@ https://ayudaempresas.galicia.ar/AyudajuridicaSPA/ini/n4/que-documentos-tengo-qu
 https://ayudaempresas.galicia.ar/AyudajuridicaSPA/ini/n4/que-es-y-como-funciona-el-debin/
 https://ayudaempresas.galicia.ar/AyudajuridicaSPA/ini/n4/que-necesito-para-comprar-o-vender-dolar-mep
 https://ayudaempresas.galicia.ar/AyudajuridicaSPA/ini/n4/quiero-solicitar-y-descargar-el-archivo-de-cese-laboral
->>>>>>> origin/main
