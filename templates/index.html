@@ -1,21 +1,79 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Calificador N4 - Galicia</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calificador N4 - Galicia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 1rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #0066cc;
+    }
+    form {
+      max-width: 400px;
+      margin: 2rem auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    input[type="number"] {
+      padding: 0.75rem;
+      font-size: 1.1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 100%;
+    }
+    button {
+      padding: 1rem;
+      font-size: 1.1rem;
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #004a99;
+    }
+    p, h3, pre {
+      max-width: 600px;
+      margin: 1rem auto;
+    }
+    pre {
+      background: #eee;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    label {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <h1>🧠 Bot calificador de URLs N4</h1>
-    <form method="POST">
-        <label for="cantidad">¿Cuántas URLs querés calificar?</label>
-        <input type="number" name="cantidad" id="cantidad" value="5" min="1" max="100">
-        <button type="submit">▶ Ejecutar</button>
-    </form>
-    <p><strong>Estado:</strong> {{ status }}</p>
-    {% if resumen %}
+  <h1>🧠 Bot calificador de URLs N4</h1>
+
+  <form method="POST">
+    <label for="cantidad">¿Cuántas URLs querés calificar?</label>
+    <input type="number" name="cantidad" id="cantidad" value="5" min="1" max="100" required />
+    <button type="submit">▶ Ejecutar</button>
+  </form>
+
+  <p><strong>Estado:</strong> {{ status }}</p>
+
+  {% if resumen %}
     <h3>Resultado:</h3>
     <pre>{{ resumen }}</pre>
-    {% endif %}
+  {% endif %}
 </body>
 </html>
