@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calificador N4 - Galicia</title>
+</head>
+<body>
+    <h1>🧠 Bot calificador de URLs N4</h1>
+    <form method="POST">
+        <label for="cantidad">¿Cuántas URLs querés calificar?</label>
+        <input type="number" name="cantidad" id="cantidad" value="5" min="1" max="100">
+        <button type="submit">▶ Ejecutar</button>
+    </form>
+    <p><strong>Estado:</strong> {{ status }}</p>
+    {% if resumen %}
+    <h3>Resultado:</h3>
+    <pre>{{ resumen }}</pre>
+    {% endif %}
+</body>
+</html>

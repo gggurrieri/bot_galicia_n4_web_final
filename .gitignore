@@ -1,0 +1,13 @@
+# Ignorar carpetas y archivos del sistema o innecesarios
+.vscode/
+AppData/
+__pycache__/
+*.pyc
+*.log
+.env
+.DS_Store
+*.db
+*.sqlite3
+node_modules/
+*.zip
+*.exe
