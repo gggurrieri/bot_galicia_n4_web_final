@@ -6,3 +6,6 @@ services:
     buildCommand: ""
     startCommand: python app.py
     autoDeploy: false
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
