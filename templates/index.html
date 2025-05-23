@@ -1,95 +1,127 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Bot calificador de URLs N4</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
-    .form-card {
-      max-width: 480px;
-      margin: 2rem auto;
-      padding: 2rem;
-      border-radius: 12px;
-      background-color: #ffffff;
-      box-shadow: 0 0 16px rgba(0,0,0,0.05);
-    }
-    .form-card h1 {
-      font-weight: bold;
-      color: #0866c6;
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    .result-block {
-      background-color: #f1f3f5;
-      border-left: 6px solid #198754;
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      margin-bottom: 0.5rem;
-      font-family: monospace;
-      overflow-wrap: anywhere;
-    }
-    .result-error {
-      border-left-color: #dc3545;
-    }
-    .status {
-      margin: 1rem 0 0.5rem;
-      font-weight: 600;
-    }
-    .spinner-border {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot calificador de URLs N4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            color: #212121;
+        }
+
+        .container {
+            max-width: 460px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.05);
+            margin-top: 3rem;
+        }
+
+        h1 {
+            color: #0056a3;
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .emoji {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        input[type="number"] {
+            padding: 0.6rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #ff6b00;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.7rem;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+        }
+
+        .status {
+            margin-top: 1rem;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .loading {
+            font-weight: bold;
+            color: #333;
+            margin-top: 1rem;
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .error {
+            background-color: #ffebee;
+            border: 1px solid #ffcdd2;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="form-card">
-    <h1>🧠 Bot calificador de URLs N4</h1>
-    <div class="mb-3">
-      <label for="cantidad" class="form-label">¿Cuántas URLs querés calificar?</label>
-      <input type="number" id="cantidad" class="form-control text-center" value="5" min="1">
+    <div class="container">
+        <h1><span class="emoji">🧠</span>Bot calificador de<br>URLs N4</h1>
+        <form method="POST">
+            <label for="cantidad">¿Cuántas URLs querés calificar?</label>
+            <input type="number" name="cantidad" min="1" required>
+            <button type="submit">▶ Ejecutar</button>
+        </form>
+
+        {% if resumen %}
+        <div class="result {% if '⚠️' in resumen %}error{% endif %}">
+            <pre>{{ resumen }}</pre>
+        </div>
+        {% endif %}
+
+        <div class="status">
+            <strong>Estado:</strong> {{ status }}
+        </div>
     </div>
-    <div class="d-grid">
-      <button id="ejecutar" class="btn btn-primary">▶ Ejecutar</button>
-    </div>
-    <div class="status" id="estado"></div>
-    <div class="mt-3" id="resultados"></div>
-  </div>
-
-  <script>
-    document.getElementById("ejecutar").onclick = async () => {
-      const cantidad = document.getElementById("cantidad").value;
-      const resultados = document.getElementById("resultados");
-      const estado = document.getElementById("estado");
-      resultados.innerHTML = "";
-      estado.innerText = "⌛ Calificando...";
-
-      const res = await fetch(`/api/calificar?cantidad=${cantidad}`);
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let done = false;
-      while (!done) {
-        const { value, done: doneReading } = await reader.read();
-        done = doneReading;
-        const chunk = decoder.decode(value);
-        chunk.split("\n").forEach(linea => {
-          if (linea.trim()) {
-            const div = document.createElement("div");
-            div.className = "result-block";
-            if (linea.includes("⚠️")) div.classList.add("result-error");
-            div.innerText = linea;
-            resultados.appendChild(div);
-          }
-        });
-      }
-
-      const resStatus = await fetch("/status");
-      const estadoTexto = await resStatus.text();
-      estado.innerText = "📊 Estado: " + estadoTexto;
-    };
-  </script>
 </body>
 </html>
