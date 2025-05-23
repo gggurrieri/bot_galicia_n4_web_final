@@ -1,12 +1,15 @@
+
 import random
 import os
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+CHROMEDRIVER_PATH = "chromedriver"
 ARCHIVO_URLS = "urls.txt"
 ARCHIVO_REGISTRO = "calificadas.txt"
 
@@ -37,26 +40,34 @@ def calificar_urls(cantidad):
     seleccionadas = random.sample(pendientes, min(cantidad, len(pendientes)))
     resultados = []
 
-    chrome_options = Options()
-    chrome_options.add_argument("--headless=new")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--window-size=1920x1080")
-    driver = webdriver.Chrome(options=chrome_options)
-
     for url in seleccionadas:
         try:
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--disable-gpu")
+            chrome_options.add_argument("--no-sandbox")
+            chrome_options.add_argument("--disable-dev-shm-usage")
+            chrome_options.add_argument("--disable-extensions")
+            chrome_options.add_argument("--disable-background-networking")
+            chrome_options.add_argument("--disable-software-rasterizer")
+            chrome_options.add_argument("--disable-default-apps")
+            chrome_options.add_argument("--disable-sync")
+
+            driver = webdriver.Chrome(options=chrome_options)
             driver.get(url)
             WebDriverWait(driver, 5).until(
                 EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Si']"))
             ).click()
             resultados.append(f"✅ {url}")
-            time.sleep(0.2)
+            time.sleep(1)
+            driver.quit()
         except Exception as e:
             resultados.append(f"⚠️ {url} - {str(e)}")
+            try:
+                driver.quit()
+            except:
+                pass
         with open(ARCHIVO_REGISTRO, "a", encoding="utf-8") as f:
             f.write(url + "\n")
 
-    driver.quit()
     return resultados
