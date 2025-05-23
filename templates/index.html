@@ -77,11 +77,16 @@
 <body>
     <div class="card">
         <h1>🧠 Bot calificador de<br>URLs N4</h1>
-        <form method="post">
+        <form method="post" onsubmit="mostrarLoading()">
             <label for="cantidad">¿Cuántas URLs querés calificar?</label>
             <input type="number" name="cantidad" id="cantidad" min="1" required value="5">
             <button type="submit">▶ Ejecutar</button>
         </form>
+
+        <div id="loading" style="display:none; margin-top: 1rem; font-weight: bold; color: #005BAC;">
+            ⏳ Procesando... por favor esperá...
+        </div>
+
         {% if status %}
             <div class="estado">Estado: {{ status }}</div>
         {% endif %}
@@ -90,5 +95,11 @@
             <pre>{{ resumen }}</pre>
         {% endif %}
     </div>
+
+    <script>
+        function mostrarLoading() {
+            document.getElementById("loading").style.display = "block";
+        }
+    </script>
 </body>
 </html>
