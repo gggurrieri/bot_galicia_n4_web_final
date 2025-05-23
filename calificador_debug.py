@@ -1,3 +1,4 @@
+
 import random
 import os
 import time
@@ -45,18 +46,25 @@ def calificar_urls(cantidad):
     chrome_options.add_argument("--window-size=1920x1080")
     driver = webdriver.Chrome(options=chrome_options)
 
+    tiempo_inicio_total = time.time()
+
     for url in seleccionadas:
+        inicio_url = time.time()
         try:
             driver.get(url)
-            WebDriverWait(driver, 5).until(
+            WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Si']"))
             ).click()
             resultados.append(f"✅ {url}")
-            time.sleep(0.2)
         except Exception as e:
             resultados.append(f"⚠️ {url} - {str(e)}")
         with open(ARCHIVO_REGISTRO, "a", encoding="utf-8") as f:
             f.write(url + "\n")
+        duracion_url = round(time.time() - inicio_url, 2)
+        print(f"⏱️ {url} → {duracion_url}s")
 
     driver.quit()
+    tiempo_total = round(time.time() - tiempo_inicio_total, 2)
+    print(f"⏲️ Tiempo total para {len(seleccionadas)} URLs: {tiempo_total}s")
+
     return resultados
