@@ -104,6 +104,7 @@ HTML = """<!DOCTYPE html>
 </head>
 <body>
     <header>
+        <img src="https://i.ibb.co/GJ7pPFK/logo-galicia.png" alt="Logo Galicia">
         <strong>Bot Galicia N4 - Calificador Automático</strong>
     </header>
 

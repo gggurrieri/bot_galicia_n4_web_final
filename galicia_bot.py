@@ -17,10 +17,8 @@ def get_urls_n4():
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--blink-settings=imagesEnabled=false")
-    options.add_argument("--disable-dev-shm-usage")
-
     driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(0.02)
+    driver.implicitly_wait(0.5)
     driver.get(URL_BASE)
     enlaces = driver.find_elements(By.CSS_SELECTOR, N4_SELECTOR)
     urls = list(set(e.get_attribute("href") for e in enlaces if e.get_attribute("href")))
@@ -40,9 +38,10 @@ def guardar_historial(historial):
 
 def calificar_url_individual(driver, url):
     driver.get(url)
-    wait = WebDriverWait(driver, 2)
+    wait = WebDriverWait(driver, 3)
     try:
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'Sí')]"))).click()
+        time.sleep(0.3)
         wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "i.fas.fa-star:nth-child(5)"))).click()
         return "✅ Calificada correctamente"
     except Exception as e:
@@ -51,12 +50,10 @@ def calificar_url_individual(driver, url):
 def calificar_urls(cantidad=1):
     urls_disponibles = get_urls_n4()
     historial = cargar_historial()
-
-    # Ignorar historial para testear sin filtro
-    urls_nuevas = urls_disponibles
+    urls_nuevas = [u for u in urls_disponibles if u not in historial]
 
     if not urls_nuevas:
-        return {"mensaje": "No hay URLs disponibles", "calificadas": []}
+        return {"mensaje": "No hay URLs nuevas para calificar", "calificadas": []}
 
     seleccionadas = sample(urls_nuevas, min(cantidad, len(urls_nuevas)))
     resultados = []
@@ -66,10 +63,8 @@ def calificar_urls(cantidad=1):
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--blink-settings=imagesEnabled=false")
-    options.add_argument("--disable-dev-shm-usage")
-
     driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(0.02)
+    driver.implicitly_wait(0.5)
 
     for url in seleccionadas:
         t0 = time.time()
