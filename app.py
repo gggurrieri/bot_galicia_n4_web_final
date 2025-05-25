@@ -6,38 +6,113 @@ app = Flask(__name__)
 
 HTML = """
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Bot Galicia N4 - Calificador Automático</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body { font-family: "Segoe UI", sans-serif; padding: 30px; background: #f5f6fa; color: #333; }
-        h2 { margin-bottom: 20px; }
-        .form-section { margin-bottom: 20px; }
-        .progress-container { width: 100%; background: #eee; border-radius: 20px; overflow: hidden; height: 25px; margin: 20px 0; }
-        .progress-bar { height: 100%; background-color: #4caf50; width: 0%; text-align: center; color: white; line-height: 25px; transition: width 0.4s ease; }
-        .resultado { margin-top: 10px; padding: 12px; background: white; border-left: 5px solid #ccc; border-radius: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-        .ok { border-left-color: green; }
-        .error { border-left-color: darkorange; }
-        a { text-decoration: none; color: #0066cc; }
-        button { padding: 8px 16px; font-size: 16px; }
-        input[type=number] { padding: 5px; font-size: 16px; width: 60px; }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', 'Nunito Sans', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+        }
+        header {
+            background-color: #f7931e;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header img {
+            height: 36px;
+            margin-right: 15px;
+        }
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+        .form-section input[type=number] {
+            padding: 10px;
+            font-size: 16px;
+            width: 80px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .form-section button {
+            background-color: #f7931e;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-section button:hover {
+            background-color: #e47d12;
+        }
+        .progress-container {
+            background-color: #eee;
+            border-radius: 20px;
+            height: 25px;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            background-color: #f7931e;
+            height: 100%;
+            width: 0%;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            transition: width 0.4s ease;
+        }
+        .resultado {
+            background: #fdfdfd;
+            border-left: 5px solid #f7931e;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .resultado.ok { border-left-color: green; }
+        .resultado.error { border-left-color: darkorange; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <h2>🔧 Bot Galicia N4 - Calificador Automático</h2>
+    <header>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Logo_Galicia.svg" alt="Banco Galicia">
+        <strong>Bot Galicia N4 - Calificador Automático</strong>
+    </header>
 
-    <div class="form-section">
-        <label>¿Cuántas URLs querés calificar?</label>
-        <input type="number" id="cantidad" value="1" min="1" max="20">
-        <button onclick="activar()">Activar</button>
-    </div>
+    <main>
+        <h2>🛠️ Herramienta de calificación automática de artículos N4</h2>
 
-    <div class="progress-container">
-        <div id="progress-bar" class="progress-bar">0%</div>
-    </div>
+        <div class="form-section">
+            <label for="cantidad">¿Cuántas URLs querés calificar?</label>
+            <input type="number" id="cantidad" value="1" min="1" max="20">
+            <button onclick="activar()">Activar</button>
+        </div>
 
-    <div id="resultados"></div>
+        <div class="progress-container">
+            <div id="progress-bar" class="progress-bar">0%</div>
+        </div>
+
+        <div id="resultados"></div>
+    </main>
 
     <script>
         async function activar() {
@@ -49,7 +124,6 @@ HTML = """
             progressBar.innerText = "0%";
             resultadosDiv.innerHTML = "<p>⏳ Calificando " + cantidad + " URLs...</p>";
 
-            // Simular avance de barra
             let progreso = 0;
             const avanceSimulado = 100 / cantidad;
 
