@@ -1,3 +1,4 @@
+
 from flask import Flask, request, jsonify, render_template_string
 from galicia_bot import calificar_urls, get_status
 import os
@@ -8,7 +9,7 @@ HTML = """<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Bot Galicia N4 - Calificador Automático</title>
+    <title>Bot Galicia N4</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         :root {
@@ -18,17 +19,16 @@ HTML = """<!DOCTYPE html>
         }
         body {
             margin: 0;
-            font-family: 'Segoe UI', 'Nunito Sans', sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: white;
             color: var(--texto);
         }
         header {
             background-color: var(--naranja-galicia);
             color: white;
-            padding: 15px 20px;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         header img {
             height: 36px;
@@ -36,45 +36,39 @@ HTML = """<!DOCTYPE html>
         }
         main {
             max-width: 800px;
-            margin: 30px auto;
+            margin: 20px auto;
             padding: 0 20px;
         }
         h2 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         .form-section {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 10px;
         }
-        .form-section input[type=number] {
+        input[type=number], button {
             padding: 10px;
             font-size: 16px;
-            width: 80px;
         }
-        .form-section button {
+        button {
             background-color: var(--naranja-galicia);
             color: white;
             border: none;
             border-radius: 20px;
             padding: 10px 20px;
-            font-size: 16px;
             cursor: pointer;
         }
-        .form-section button:hover {
+        button:hover {
             background-color: #e47d12;
         }
         .progress-container {
-            background-color: #eee;
-            border-radius: 20px;
+            background: #eee;
             height: 25px;
-            width: 100%;
+            border-radius: 20px;
             overflow: hidden;
             margin-bottom: 20px;
         }
@@ -82,42 +76,43 @@ HTML = """<!DOCTYPE html>
             background-color: var(--naranja-galicia);
             height: 100%;
             width: 0%;
+            color: white;
             text-align: center;
             line-height: 25px;
-            color: white;
-            transition: width 0.4s ease;
+            transition: width 0.5s;
         }
         .resultado {
             background: #fdfdfd;
+            padding: 10px;
+            margin-bottom: 10px;
             border-left: 5px solid var(--naranja-galicia);
-            padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-        .resultado.ok { border-left-color: green; }
-        .resultado.error { border-left-color: darkorange; }
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-
+        .ok { border-left-color: green; }
+        .error { border-left-color: darkorange; }
         @media (max-width: 600px) {
-            h2 { font-size: 1.2rem; flex-direction: column; align-items: flex-start; }
-            .form-section { flex-direction: column; align-items: flex-start; }
-            .form-section input, .form-section button { width: 100%; max-width: 100%; }
+            .form-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            input[type=number], button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Logo_Galicia.svg/2560px-Logo_Galicia.svg.png" alt="Banco Galicia">
+        <img src="https://i.ibb.co/GJ7pPFK/logo-galicia.png" alt="Logo Galicia">
         <strong>Bot Galicia N4 - Calificador Automático</strong>
     </header>
 
     <main>
-        <h2>🛠️ Herramienta de calificación automática de artículos N4</h2>
+        <h2>🛠️ Herramienta de calificación de artículos N4</h2>
 
         <div class="form-section">
-            <label for="cantidad">¿Cuántas URLs querés calificar?</label>
+            <label>¿Cuántas URLs querés calificar?</label>
             <input type="number" id="cantidad" value="1" min="1" max="20">
             <button onclick="activar()">Activar</button>
         </div>
@@ -143,11 +138,9 @@ HTML = """<!DOCTYPE html>
             const avanceSimulado = 100 / cantidad;
 
             const intervalo = setInterval(() => {
-                if (progreso < 100) {
-                    progreso += avanceSimulado;
-                    progressBar.style.width = Math.min(progreso, 100) + "%";
-                    progressBar.innerText = Math.round(Math.min(progreso, 100)) + "%";
-                }
+                progreso += avanceSimulado;
+                progressBar.style.width = Math.min(progreso, 100) + "%";
+                progressBar.innerText = Math.round(Math.min(progreso, 100)) + "%";
             }, 500);
 
             try {
@@ -158,16 +151,18 @@ HTML = """<!DOCTYPE html>
                 progressBar.innerText = "100%";
 
                 const resultados = data.calificadas || [];
+                if (resultados.length === 0) {
+                    resultadosDiv.innerHTML = "<p>✅ No hay URLs nuevas para calificar</p>";
+                    return;
+                }
+
                 let html = "<h3>📋 Resultados:</h3>";
-
                 resultados.forEach(r => {
-                    html += `
-                        <div class="resultado ${r.resultado.includes('✅') ? 'ok' : 'error'}">
-                            <div><strong>URL:</strong> <a href="${r.url}" target="_blank">${r.url}</a></div>
-                            <div>${r.resultado} ⏱ ${r.tiempo}s</div>
-                        </div>`;
+                    html += `<div class="resultado ${r.resultado.includes('✅') ? 'ok' : 'error'}">
+                        <div><strong>URL:</strong> <a href="${r.url}" target="_blank">${r.url}</a></div>
+                        <div>${r.resultado} ⏱ ${r.tiempo}s</div>
+                    </div>`;
                 });
-
                 resultadosDiv.innerHTML = html;
             } catch (err) {
                 clearInterval(intervalo);
