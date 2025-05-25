@@ -51,10 +51,12 @@ def calificar_url_individual(driver, url):
 def calificar_urls(cantidad=1):
     urls_disponibles = get_urls_n4()
     historial = cargar_historial()
-    urls_nuevas = [u for u in urls_disponibles if u not in historial]
+
+    # Ignorar historial para testear sin filtro
+    urls_nuevas = urls_disponibles
 
     if not urls_nuevas:
-        return {"mensaje": "No hay URLs nuevas para calificar", "calificadas": []}
+        return {"mensaje": "No hay URLs disponibles", "calificadas": []}
 
     seleccionadas = sample(urls_nuevas, min(cantidad, len(urls_nuevas)))
     resultados = []
@@ -67,7 +69,7 @@ def calificar_urls(cantidad=1):
     options.add_argument("--disable-dev-shm-usage")
 
     driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(0.1)
+    driver.implicitly_wait(0.02)
 
     for url in seleccionadas:
         t0 = time.time()
