@@ -7,10 +7,8 @@ from random import sample
 import time
 import json
 
-# === CONFIG ===
 URL_BASE = "https://ayudaempresas.galicia.ar/AyudajuridicaSPA/ini/"
 N4_SELECTOR = 'a[href*="/n4/"]'
-TIEMPO_MAXIMO = 6
 HISTORIAL_PATH = "historial_urls.json"
 
 def get_urls_n4():
@@ -23,11 +21,11 @@ def get_urls_n4():
     options.add_argument("--blink-settings=imagesEnabled=false")
 
     driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(0.5)
+    driver.implicitly_wait(0.2)
 
     driver.get(URL_BASE)
     enlaces = driver.find_elements(By.CSS_SELECTOR, N4_SELECTOR)
-    urls = list(set([e.get_attribute("href") for e in enlaces if e.get_attribute("href")]))
+    urls = list(set(e.get_attribute("href") for e in enlaces if e.get_attribute("href")))
     driver.quit()
     return urls
 
@@ -44,32 +42,24 @@ def guardar_historial(historial):
 
 def calificar_url_individual(driver, url):
     driver.get(url)
-    wait = WebDriverWait(driver, TIEMPO_MAXIMO)
-
+    wait = WebDriverWait(driver, 3)
     try:
-        boton_si = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'Sí')]")))
-        boton_si.click()
-    except Exception as e:
-        return f"❌ No se pudo votar 'Sí': {e}"
-
-    time.sleep(0.3)
-
-    try:
-        estrella_5 = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "i.fas.fa-star:nth-child(5)")))
-        estrella_5.click()
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'Sí')]"))).click()
+        time.sleep(0.2)
+        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "i.fas.fa-star:nth-child(5)"))).click()
         return "✅ Calificada correctamente"
     except Exception as e:
-        return f"⚠️ Votó 'Sí' pero falló al poner 5 estrellas: {e}"
+        return f"⚠️ Error: {e}"
 
 def calificar_urls(cantidad=1):
     urls_disponibles = get_urls_n4()
     historial = cargar_historial()
-    urls_filtradas = [u for u in urls_disponibles if u not in historial]
+    urls_nuevas = [u for u in urls_disponibles if u not in historial]
 
-    if not urls_filtradas:
-        return {"mensaje": "No hay URLs nuevas para calificar"}
+    if not urls_nuevas:
+        return {"mensaje": "No hay URLs nuevas para calificar", "calificadas": []}
 
-    urls_a_calificar = sample(urls_filtradas, min(cantidad, len(urls_filtradas)))
+    seleccionadas = sample(urls_nuevas, min(cantidad, len(urls_nuevas)))
     resultados = []
 
     options = Options()
@@ -81,27 +71,22 @@ def calificar_urls(cantidad=1):
     options.add_argument("--blink-settings=imagesEnabled=false")
 
     driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(0.5)
+    driver.implicitly_wait(0.2)
 
-    for url in urls_a_calificar:
-        print(f"➡️ Calificando: {url}")
+    for url in seleccionadas:
         t0 = time.time()
         try:
             resultado = calificar_url_individual(driver, url)
         except Exception as e:
-            resultado = f"⚠️ Error inesperado: {e}"
+            resultado = f"⚠️ Fallo inesperado: {e}"
         t1 = time.time()
-        print(f"{resultado} ⏱ {round(t1 - t0, 2)}s")
         resultados.append({"url": url, "resultado": resultado, "tiempo": round(t1 - t0, 2)})
         historial.append(url)
 
     driver.quit()
     guardar_historial(historial)
-    return {"calificadas": resultados, "mensaje": f"Se calificaron {len(resultados)} URLs"}
+    return {"mensaje": f"Se calificaron {len(resultados)} URLs", "calificadas": resultados}
 
 def get_status():
     historial = cargar_historial()
-    return {
-        "total_calificadas": len(historial),
-        "ultimas": historial[-5:] if historial else []
-    }
+    return {"total_calificadas": len(historial), "ultimas": historial[-5:]}
