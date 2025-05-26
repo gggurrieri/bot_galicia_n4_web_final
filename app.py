@@ -50,7 +50,7 @@ HTML = """
 
 @app.route("/")
 def home():
-    return "Bot Galicia N4 Web activo"
+    return render_template_string(HTML)
 
 @app.route("/activar")
 def activar():
