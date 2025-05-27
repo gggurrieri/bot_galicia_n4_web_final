@@ -109,11 +109,12 @@ HTML = """<!DOCTYPE html>
       <div class="estado" id="estado"></div>
       <div id="resultados"></div>
     </div>
-    <div class="reset">
+    <!-- Reset oculto -->
+<!-- <div class="reset">
       <form method="POST" action="/reset">
         <button type="submit">🗑 Resetear historial</button>
       </form>
-    </div>
+    </div> -->
   </div>
 
   <script>
@@ -135,13 +136,19 @@ HTML = """<!DOCTYPE html>
         const total = await fetch("/status").then(res => res.json());
 
         const hora = new Date().toLocaleTimeString();
-        estado.innerHTML = `<b>Estado:</b> ${total.total_calificadas} de ${total.total_calificadas + data.calificadas.length} URLs ya fueron calificadas.<br><small>🕒 Ejecutado a las ${hora}</small>`;
+        estado.innerHTML = `<b>🟠 Calificadas:</b> ${data.calificadas.length} URLs procesadas<br><small>🕒 Ejecutado a las ${hora}</small>`;
 
         data.calificadas.forEach(r => {
           const div = document.createElement("div");
           div.className = "result";
           div.innerHTML = `✅ <a href="${r.url}" target="_blank">${r.url}</a>`;
           resultados.appendChild(div);
+
+        // Mostrar resumen abajo
+        const resumenBox = document.createElement("div");
+        resumenBox.className = "result";
+        resumenBox.innerHTML = `<b>🧾 Últimas calificadas:</b><br>` + data.calificadas.map(c => c.url).join("<br>");
+        resultados.appendChild(resumenBox);
         });
 
         if (!data.calificadas.length) {
