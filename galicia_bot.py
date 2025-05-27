@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from random import sample
 
-URL_BASE = "https://ayudaempresas.galicia.ar/AyudajuridicaSPA/ini/"
+URL_N4 = "https://ayudaempresas.galicia.ar/AyudajuridicaSPA/ini/n4/"
 HISTORIAL_PATH = "historial_urls.json"
 
 def get_urls_n4():
@@ -22,14 +22,14 @@ def get_urls_n4():
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(0.5)
 
-    print("🌐 Abriendo:", URL_BASE)
-    driver.get(URL_BASE)
+    print("🌐 Abriendo:", URL_N4)
+    driver.get(URL_N4)
 
     all_links = driver.find_elements(By.TAG_NAME, "a")
     urls = []
     for link in all_links:
         href = link.get_attribute("href")
-        if href and "AyudajuridicaSPA/ini/n4/" in href:
+        if href and "/AyudajuridicaSPA/ini/n4/" in href:
             urls.append(href)
 
     driver.quit()
