@@ -7,20 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from random import sample
 import time
 
-HISTORIAL_PATH = "historial_urls.json"
 URL_BASE = "https://ayudaempresas.galicia.ar/AyudajuridicaSPA/ini/"
 N4_SELECTOR = 'a[href*="/n4/"]'
-
-def cargar_historial():
-    try:
-        with open(HISTORIAL_PATH, "r") as f:
-            return json.load(f)
-    except:
-        return []
-
-def guardar_historial(historial):
-    with open(HISTORIAL_PATH, "w") as f:
-        json.dump(historial, f, indent=2)
 
 def get_urls_n4():
     options = Options()
@@ -50,13 +38,7 @@ def calificar_url_individual(driver, url):
 
 def calificar_urls(cantidad=1):
     urls_disponibles = get_urls_n4()
-    historial = cargar_historial()
-    urls_nuevas = [u for u in urls_disponibles if u not in historial]
-
-    if not urls_nuevas:
-        return {"mensaje": "No hay URLs nuevas para calificar", "calificadas": []}
-
-    seleccionadas = sample(urls_nuevas, min(cantidad, len(urls_nuevas)))
+    seleccionadas = sample(urls_disponibles, min(cantidad, len(urls_disponibles)))
     resultados = []
 
     options = Options()
@@ -72,12 +54,9 @@ def calificar_urls(cantidad=1):
         resultado = calificar_url_individual(driver, url)
         t1 = time.time()
         resultados.append({"url": url, "resultado": resultado, "tiempo": round(t1 - t0, 2)})
-        historial.append(url)
 
     driver.quit()
-    guardar_historial(historial)
     return {"mensaje": f"Se calificaron {len(resultados)} URLs", "calificadas": resultados}
 
 def get_status():
-    historial = cargar_historial()
-    return {"total_calificadas": len(historial), "ultimas": historial[-5:]}
+    return {"total_calificadas": 0, "ultimas": []}
