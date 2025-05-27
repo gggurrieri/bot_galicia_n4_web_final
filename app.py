@@ -25,6 +25,7 @@ HTML = """<!DOCTYPE html>
     .container {
       max-width: 480px;
       width: 100%;
+      margin: 0 auto;
     }
     h1 {
       text-align: center;
@@ -68,6 +69,7 @@ HTML = """<!DOCTYPE html>
       text-align: center;
       margin-top: 15px;
       font-weight: 600;
+      animation: fadein 0.5s ease-in-out;
     }
     .result {
       margin-top: 15px;
@@ -90,6 +92,10 @@ HTML = """<!DOCTYPE html>
     }
     .reset button:hover {
       background: #888;
+    }
+    @keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -124,11 +130,12 @@ HTML = """<!DOCTYPE html>
 
       try {
         const r = await fetch(`/activar_json?cantidad=${cantidad}`);
+        if (!r.ok) throw new Error("Respuesta no válida");
         const data = await r.json();
         const total = await fetch("/status").then(res => res.json());
 
-        const totalPrevio = total.total_calificadas - data.calificadas.length;
-        estado.innerHTML = `<b>Estado:</b> ${total.total_calificadas} de ${total.total_calificadas + data.calificadas.length} URLs ya fueron calificadas.`;
+        const hora = new Date().toLocaleTimeString();
+        estado.innerHTML = `<b>Estado:</b> ${total.total_calificadas} de ${total.total_calificadas + data.calificadas.length} URLs ya fueron calificadas.<br><small>🕒 Ejecutado a las ${hora}</small>`;
 
         data.calificadas.forEach(r => {
           const div = document.createElement("div");
@@ -158,9 +165,13 @@ def home():
 
 @app.route("/activar_json")
 def activar_json():
-    cantidad = int(request.args.get("cantidad", 1))
-    resultado = calificar_urls(cantidad)
-    return jsonify(resultado)
+    try:
+        cantidad = int(request.args.get("cantidad", 1))
+        resultado = calificar_urls(cantidad)
+        return jsonify(resultado)
+    except Exception as e:
+        print("❌ Error en activar_json:", str(e))
+        return jsonify({"error": str(e), "calificadas": []}), 500
 
 @app.route("/reset", methods=["POST"])
 def reset():
