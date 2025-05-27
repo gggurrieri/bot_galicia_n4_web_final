@@ -34,6 +34,8 @@ HTML = """<!DOCTYPE html>
       font-size: 1.8rem;
     }
     .card {
+      padding-left: 25px;
+      padding-right: 25px;
       background: white;
       padding: 25px;
       border-radius: 12px;
@@ -45,6 +47,8 @@ HTML = """<!DOCTYPE html>
       font-weight: 600;
     }
     input[type=number] {
+      box-sizing: border-box;
+      margin: 0 auto;
       display: block;
       margin: 0 auto;
       width: 100%;
