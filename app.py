@@ -17,16 +17,23 @@ HTML = """<!DOCTYPE html>
       margin: 0;
       padding: 20px;
       color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 480px;
+      width: 100%;
     }
     h1 {
       text-align: center;
       color: #004481;
       margin-top: 10px;
+      font-size: 1.8rem;
     }
     .card {
       background: white;
-      max-width: 500px;
-      margin: 30px auto;
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.06);
@@ -59,11 +66,11 @@ HTML = """<!DOCTYPE html>
     }
     .estado {
       text-align: center;
-      margin-top: 10px;
+      margin-top: 15px;
       font-weight: 600;
     }
     .result {
-      margin-top: 20px;
+      margin-top: 15px;
       padding: 10px;
       background: #fff;
       border-left: 4px solid #4caf50;
@@ -72,31 +79,35 @@ HTML = """<!DOCTYPE html>
       word-break: break-word;
     }
     .reset {
+      margin-top: 20px;
       text-align: center;
-      margin-top: 30px;
     }
     .reset button {
-      background: #999;
+      background: #bbb;
+      padding: 8px 18px;
+      font-size: 14px;
+      width: auto;
     }
     .reset button:hover {
-      background: #666;
+      background: #888;
     }
   </style>
 </head>
 <body>
-  <h1>🧠 Bot calificador de<br>URLs N4</h1>
-  <div class="card">
-    <label for="cantidad">¿Cuántas URLs querés calificar?</label>
-    <input type="number" id="cantidad" min="1" max="50" value="5">
-    <button onclick="activar()">▶ Ejecutar</button>
-    <div class="estado" id="estado"></div>
-    <div id="resultados"></div>
-  </div>
-
-  <div class="reset">
-    <form method="POST" action="/reset">
-      <button type="submit">🗑️ Resetear historial</button>
-    </form>
+  <div class="container">
+    <h1>🧠 Bot calificador de<br>URLs N4</h1>
+    <div class="card">
+      <label for="cantidad">¿Cuántas URLs querés calificar?</label>
+      <input type="number" id="cantidad" min="1" max="50" value="5">
+      <button onclick="activar()">▶ Ejecutar</button>
+      <div class="estado" id="estado"></div>
+      <div id="resultados"></div>
+    </div>
+    <div class="reset">
+      <form method="POST" action="/reset">
+        <button type="submit">🗑 Resetear historial</button>
+      </form>
+    </div>
   </div>
 
   <script>
@@ -113,6 +124,7 @@ HTML = """<!DOCTYPE html>
         const data = await r.json();
         const total = await fetch("/status").then(res => res.json());
 
+        const totalPrevio = total.total_calificadas - data.calificadas.length;
         estado.innerHTML = `<b>Estado:</b> ${total.total_calificadas} de ${total.total_calificadas + data.calificadas.length} URLs ya fueron calificadas.`;
 
         data.calificadas.forEach(r => {
@@ -126,7 +138,8 @@ HTML = """<!DOCTYPE html>
           resultados.innerHTML = "<p class='result'>✅ No hay URLs nuevas para calificar</p>";
         }
       } catch (err) {
-        estado.innerText = "❌ Error al procesar";
+        console.error("Error al procesar:", err);
+        estado.innerHTML = "<span style='color:red'>❌ Error al procesar</span>";
       }
     }
   </script>
