@@ -99,7 +99,7 @@ HTML = """<!DOCTYPE html>
     <div class="card">
       <label for="cantidad">¿Cuántas URLs querés calificar?</label>
       <input type="number" id="cantidad" min="1" max="50" value="5">
-      <button onclick="activar()">▶ Ejecutar</button>
+      <button id="ejecutarBtn" onclick="activar()">▶ Ejecutar</button>
       <div class="estado" id="estado"></div>
       <div id="resultados"></div>
     </div>
@@ -115,9 +115,12 @@ HTML = """<!DOCTYPE html>
       const cantidad = document.getElementById("cantidad").value;
       const estado = document.getElementById("estado");
       const resultados = document.getElementById("resultados");
+      const btn = document.getElementById("ejecutarBtn");
 
       estado.innerText = "⏳ Procesando...";
       resultados.innerHTML = "";
+      btn.disabled = true;
+      btn.innerText = "Procesando...";
 
       try {
         const r = await fetch(`/activar_json?cantidad=${cantidad}`);
@@ -140,6 +143,9 @@ HTML = """<!DOCTYPE html>
       } catch (err) {
         console.error("Error al procesar:", err);
         estado.innerHTML = "<span style='color:red'>❌ Error al procesar</span>";
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "▶ Ejecutar";
       }
     }
   </script>
