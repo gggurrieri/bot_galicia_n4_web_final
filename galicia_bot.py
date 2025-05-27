@@ -30,7 +30,10 @@ def calificar_url(driver, url):
     try:
         driver.get(url)
         WebDriverWait(driver, 5).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Sí')]"))
+            EC.element_to_be_clickable((
+                By.XPATH,
+                "//button[.//span[text()='Si']]"
+            ))
         ).click()
         print("✅ Clic en 'Sí' exitoso")
         return {"url": url, "resultado": "✅ Calificada"}
