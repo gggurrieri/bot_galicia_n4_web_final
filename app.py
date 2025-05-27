@@ -8,60 +8,125 @@ HTML = """<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Bot Galicia N4 - Calificador Automático</title>
+  <title>Bot calificador N4</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Open Sans', sans-serif; background: #fff; margin: 0; color: #4a4a4a; padding: 30px 20px; }
-    header { background: #f7931e; color: white; padding: 15px 30px; text-align: center; font-weight: 600; font-size: 1.2rem; }
-    main { max-width: 700px; margin: 40px auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    h2 { font-size: 1.4rem; margin-bottom: 20px; }
-    label { font-weight: 600; display: block; margin-bottom: 8px; }
-    input[type=number] { padding: 10px; width: 80px; font-size: 16px; }
-    button { background: #f7931e; color: white; padding: 10px 20px; border: none; font-size: 16px; margin-left: 10px;
-             border-radius: 20px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    button:hover { background: #e37a0c; }
-    .form-group { margin-bottom: 20px; }
-    .result { margin-top: 20px; padding: 15px; background: #f6f6f6; border-left: 4px solid #f7931e; border-radius: 5px; }
-    .reset { margin-top: 30px; text-align: center; }
-    .reset button { background: #999; }
-    .reset button:hover { background: #666; }
-    @media (max-width: 600px) {
-      main { padding: 20px; }
-      button, input[type=number] { width: 100%; margin: 5px 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #004481;
+      margin-top: 10px;
+    }
+    .card {
+      background: white;
+      max-width: 500px;
+      margin: 30px auto;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    input[type=number] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+    button {
+      background: #f7931e;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e37a0c;
+    }
+    .estado {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background: #fff;
+      border-left: 4px solid #4caf50;
+      border-radius: 6px;
+      font-family: monospace;
+      word-break: break-word;
+    }
+    .reset {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .reset button {
+      background: #999;
+    }
+    .reset button:hover {
+      background: #666;
     }
   </style>
 </head>
 <body>
-  <header>🛠️ Bot Galicia N4 - Calificador Automático</header>
-  <main>
-    <h2>Herramienta de calificación de artículos N4</h2>
-    <div class="form-group">
-      <label>¿Cuántas URLs querés calificar?</label>
-      <input type="number" id="cantidad" value="1" min="1" max="20">
-      <button onclick="activar()">Activar</button>
-    </div>
-    <div id="resultado" class="result"></div>
-    <div class="reset">
-      <form method="POST" action="/reset">
-        <button type="submit">🗑️ Resetear historial</button>
-      </form>
-    </div>
-  </main>
+  <h1>🧠 Bot calificador de<br>URLs N4</h1>
+  <div class="card">
+    <label for="cantidad">¿Cuántas URLs querés calificar?</label>
+    <input type="number" id="cantidad" min="1" max="50" value="5">
+    <button onclick="activar()">▶ Ejecutar</button>
+    <div class="estado" id="estado"></div>
+    <div id="resultados"></div>
+  </div>
+
+  <div class="reset">
+    <form method="POST" action="/reset">
+      <button type="submit">🗑️ Resetear historial</button>
+    </form>
+  </div>
+
   <script>
     async function activar() {
       const cantidad = document.getElementById("cantidad").value;
-      const resDiv = document.getElementById("resultado");
-      resDiv.innerHTML = "⏳ Procesando...";
+      const estado = document.getElementById("estado");
+      const resultados = document.getElementById("resultados");
+
+      estado.innerText = "⏳ Procesando...";
+      resultados.innerHTML = "";
+
       try {
         const r = await fetch(`/activar_json?cantidad=${cantidad}`);
         const data = await r.json();
-        const items = data.calificadas.map(c => 
-          `<p><strong>URL:</strong> <a href="${c.url}" target="_blank">${c.url}</a><br>
-           ${c.resultado} ⏱ ${c.tiempo}s</p>`).join("");
-        resDiv.innerHTML = data.calificadas.length ? items : "✅ No hay URLs nuevas para calificar";
-      } catch (e) {
-        resDiv.innerHTML = "❌ Error al procesar";
+        const total = await fetch("/status").then(res => res.json());
+
+        estado.innerHTML = `<b>Estado:</b> ${total.total_calificadas} de ${total.total_calificadas + data.calificadas.length} URLs ya fueron calificadas.`;
+
+        data.calificadas.forEach(r => {
+          const div = document.createElement("div");
+          div.className = "result";
+          div.innerHTML = `✅ <a href="${r.url}" target="_blank">${r.url}</a>`;
+          resultados.appendChild(div);
+        });
+
+        if (!data.calificadas.length) {
+          resultados.innerHTML = "<p class='result'>✅ No hay URLs nuevas para calificar</p>";
+        }
+      } catch (err) {
+        estado.innerText = "❌ Error al procesar";
       }
     }
   </script>
