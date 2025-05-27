@@ -45,6 +45,8 @@ HTML = """<!DOCTYPE html>
       font-weight: 600;
     }
     input[type=number] {
+      display: block;
+      margin: 0 auto;
       width: 100%;
       padding: 12px;
       font-size: 16px;
@@ -144,11 +146,6 @@ HTML = """<!DOCTYPE html>
           div.innerHTML = `✅ <a href="${r.url}" target="_blank">${r.url}</a>`;
           resultados.appendChild(div);
 
-        // Mostrar resumen abajo
-        const resumenBox = document.createElement("div");
-        resumenBox.className = "result";
-        resumenBox.innerHTML = `<b>🧾 Últimas calificadas:</b><br>` + data.calificadas.map(c => c.url).join("<br>");
-        resultados.appendChild(resumenBox);
         });
 
         if (!data.calificadas.length) {
