@@ -1,105 +1,331 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>🧠 Bot calificador de URLs N4</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f7f7f7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 500px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #005BAC;
-            margin-top: 0;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        input[type="number"] {
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-
-        button {
-            background-color: #005BAC;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #003E7E;
-        }
-
-        .estado {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-
-        pre {
-            background-color: #f1f1f1;
-            padding: 10px;
-            border-radius: 8px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            overflow-x: auto;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Bot calificador N4 – Galicia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #e4ebff, #f4f6fb 40%, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 16px;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 24px 28px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.08);
+      max-width: 560px;
+      width: 100%;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h1 span.logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #003399;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .subtitle {
+      margin: 0 0 16px;
+      font-size: 0.9rem;
+      color: #62657a;
+    }
+    label {
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin: 8px 0 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    input[type="number"] {
+      width: 100px;
+      padding: 6px 8px;
+      border-radius: 10px;
+      border: 1px solid #d0d4e4;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    input[type="number"]:focus {
+      border-color: #003399;
+      box-shadow: 0 0 0 1px rgba(0,51,153,0.15);
+    }
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: #003399;
+      color: #fff;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.05s ease, box-shadow 0.1s ease, opacity 0.1s ease;
+    }
+    button span.play {
+      font-size: 1rem;
+    }
+    button:hover:not([disabled]) {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+    }
+    button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .status-line {
+      font-size: 0.85rem;
+      color: #555;
+      margin-top: 4px;
+    }
+    .status-line strong {
+      color: #003399;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #f1f3ff;
+      color: #29304f;
+      font-size: 0.78rem;
+      margin-top: 6px;
+    }
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #28a745;
+      animation: blink 1.2s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+    .results {
+      margin-top: 16px;
+      max-height: 280px;
+      overflow-y: auto;
+      border-top: 1px solid #eef0f9;
+      padding-top: 8px;
+      font-size: 0.85rem;
+    }
+    .result-item {
+      display: flex;
+      flex-direction: column;
+      padding: 6px 0;
+      border-bottom: 1px dashed #eef0f9;
+    }
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .result-header span.icon {
+      font-size: 1.1rem;
+    }
+    .result-url {
+      color: #003399;
+      word-break: break-all;
+      flex: 1;
+    }
+    .result-tag {
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .tag-ok {
+      color: #1a7f37;
+    }
+    .tag-error {
+      color: #b3261e;
+    }
+    .result-msg {
+      margin-left: 22px;
+      color: #777;
+      margin-top: 2px;
+    }
+    .footer {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: #9a9db4;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .footer span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+  </style>
 </head>
 <body>
-    <div class="card">
-        <h1>🧠 Bot calificador de<br>URLs N4</h1>
-        <form method="post" onsubmit="mostrarLoading()">
-            <label for="cantidad">¿Cuántas URLs querés calificar?</label>
-            <input type="number" name="cantidad" id="cantidad" min="1" required value="5">
-            <button type="submit">▶ Ejecutar</button>
-        </form>
+  <div class="card">
+    <h1>
+      <span class="logo">G</span>
+      Bot calificador N4
+    </h1>
+    <p class="subtitle">
+      Automatiza la calificación de artículos N4 (voto "Sí" + 5 ⭐) y evita repetir URLs ya calificadas.
+    </p>
 
-        <div id="loading" style="display:none; margin-top: 1rem; font-weight: bold; color: #005BAC;">
-            ⏳ Procesando... por favor esperá...
-        </div>
-
-        {% if status %}
-            <div class="estado">Estado: {{ status }}</div>
-        {% endif %}
-        {% if resumen %}
-            <h3>Resultado:</h3>
-            <pre>{{ resumen }}</pre>
-        {% endif %}
+    <label for="cantidad">¿Cuántas URLs querés calificar?</label>
+    <div class="controls">
+      <input id="cantidad" type="number" min="1" value="5" />
+      <button id="btn-ejecutar">
+        <span class="play">▶</span>
+        Ejecutar
+      </button>
     </div>
 
-    <script>
-        function mostrarLoading() {
-            document.getElementById("loading").style.display = "block";
+    <div class="status-line" id="status-text">
+      Sin tareas en ejecución.
+    </div>
+    <div class="pill" id="pill-running" style="display:none;">
+      <span class="pill-dot"></span>
+      Ejecutando calificación de URLs N4…
+    </div>
+
+    <div class="results" id="results"></div>
+
+    <div class="footer">
+      <span>✅ Califica y registra historial local</span>
+      <span>🧹 POST /reset para limpiar historial</span>
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById("btn-ejecutar");
+    const input = document.getElementById("cantidad");
+    const statusText = document.getElementById("status-text");
+    const resultsDiv = document.getElementById("results");
+    const pillRunning = document.getElementById("pill-running");
+
+    let pollInterval = null;
+
+    function renderStatus(data) {
+      const total = data.total || 0;
+      const done = data.done || 0;
+      const running = data.running;
+
+      if (!running && done === 0) {
+        statusText.textContent = "Sin tareas en ejecución.";
+        pillRunning.style.display = "none";
+      } else if (total > 0) {
+        statusText.innerHTML = `Progreso: <strong>${done}/${total}</strong> URLs calificadas.`;
+        pillRunning.style.display = running ? "inline-flex" : "none";
+      }
+
+      resultsDiv.innerHTML = "";
+
+      (data.items || []).forEach((item, idx) => {
+        const div = document.createElement("div");
+        div.className = "result-item";
+
+        const header = document.createElement("div");
+        header.className = "result-header";
+
+        const icon = document.createElement("span");
+        icon.className = "icon";
+        icon.textContent = item.ok ? "✅" : "⚠️";
+
+        const url = document.createElement("span");
+        url.className = "result-url";
+        url.textContent = `${idx + 1}. ${item.url}`;
+
+        const tag = document.createElement("span");
+        tag.className = "result-tag " + (item.ok ? "tag-ok" : "tag-error");
+        tag.textContent = item.ok ? "OK" : "Error";
+
+        header.appendChild(icon);
+        header.appendChild(url);
+        header.appendChild(tag);
+
+        const msg = document.createElement("div");
+        msg.className = "result-msg";
+        msg.textContent = item.msg || "";
+
+        div.appendChild(header);
+        div.appendChild(msg);
+
+        resultsDiv.appendChild(div);
+      });
+    }
+
+    async function fetchStatus() {
+      try {
+        const res = await fetch("/status");
+        const data = await res.json();
+        renderStatus(data);
+
+        if (!data.running) {
+          // terminó
+          btn.disabled = false;
+          input.disabled = false;
+          pillRunning.style.display = "none";
+          if (pollInterval) {
+            clearInterval(pollInterval);
+            pollInterval = null;
+          }
         }
-    </script>
+      } catch (err) {
+        console.error("Error consultando /status", err);
+      }
+    }
+
+    btn.addEventListener("click", async () => {
+      const cantidad = parseInt(input.value || "1", 10);
+      if (!cantidad || cantidad < 1) return;
+
+      btn.disabled = true;
+      input.disabled = true;
+      resultsDiv.innerHTML = "";
+      statusText.textContent = "Iniciando calificación…";
+      pillRunning.style.display = "inline-flex";
+
+      // Arrancamos el polling del estado antes de llamar a /activar_json
+      if (pollInterval) clearInterval(pollInterval);
+      pollInterval = setInterval(fetchStatus, 1000);
+
+      try {
+        await fetch(`/activar_json?cantidad=${cantidad}`);
+      } catch (err) {
+        console.error("Error en /activar_json", err);
+      }
+    });
+
+    // Mostrar si quedó algún estado al cargar
+    fetchStatus();
+  </script>
 </body>
 </html>
