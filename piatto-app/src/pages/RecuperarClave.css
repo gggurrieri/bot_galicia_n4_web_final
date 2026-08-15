@@ -29,32 +29,32 @@
 .recuperar__input {
   width: 100%;
   height: 49px;
-  border-radius: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  background: #ffffff;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(36, 26, 20, 0.25);
+  background: var(--color-input-bg);
   padding: 0 16px;
   font-size: 16px;
   font-family: var(--font-sans);
-  color: #000;
+  color: var(--color-input-text);
   box-sizing: border-box;
 }
 
 .recuperar__input::placeholder {
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--color-input-placeholder);
 }
 
 .recuperar__error {
   margin: 0;
-  color: #ff8a8a;
+  color: var(--color-error-text);
   font-size: 14px;
 }
 
 .recuperar__submit {
   width: 100%;
   height: 49px;
-  border-radius: 26px;
+  border-radius: var(--radius-pill);
   border: none;
-  background: var(--color-accent-purple);
+  background: var(--color-primary);
   color: #fff;
   font-size: 18px;
   cursor: pointer;

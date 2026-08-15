@@ -36,14 +36,42 @@
 .buscar__input {
   width: 100%;
   height: 49px;
-  border-radius: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  background: #ffffff;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(36, 26, 20, 0.25);
+  background: var(--color-input-bg);
   padding: 0 16px;
   font-size: 16px;
   font-family: var(--font-sans);
-  color: #000;
+  color: var(--color-input-text);
   box-sizing: border-box;
+}
+
+.buscar__chip-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.buscar__chip {
+  flex-shrink: 0;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text);
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+.buscar__chip--active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
 }
 
 .buscar__steppers {
@@ -60,7 +88,7 @@
 .buscar__toggle-option {
   flex: 1;
   height: 44px;
-  border-radius: 20px;
+  border-radius: var(--radius-pill);
   border: 1px solid var(--color-border);
   background: transparent;
   color: var(--color-text);
@@ -69,35 +97,35 @@
 }
 
 .buscar__toggle-option--active {
-  background: var(--color-accent-purple);
-  border-color: var(--color-accent-purple);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
   color: #fff;
   font-weight: 700;
 }
 
 .buscar__textarea {
   width: 100%;
-  border-radius: 15px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(36, 26, 20, 0.25);
+  background: var(--color-input-bg);
   padding: 12px 16px;
   font-size: 15px;
   font-family: var(--font-sans);
-  color: #000;
+  color: var(--color-input-text);
   box-sizing: border-box;
   resize: none;
 }
 
 .buscar__textarea::placeholder {
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--color-input-placeholder);
 }
 
 .buscar__submit {
   width: 100%;
   height: 49px;
-  border-radius: 26px;
+  border-radius: var(--radius-pill);
   border: none;
-  background: var(--color-accent-purple);
+  background: var(--color-primary);
   color: #fff;
   font-size: 18px;
   cursor: pointer;

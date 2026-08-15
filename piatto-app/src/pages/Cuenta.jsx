@@ -4,18 +4,21 @@ import starFull from '../assets/icons/star-full.svg'
 import BackButton from '../components/BackButton.jsx'
 import { restaurants } from '../data/restaurants.js'
 import { formatComensales, formatMesa, useSearch } from '../context/SearchContext.jsx'
+import { useToast } from '../context/ToastContext.jsx'
 import './Cuenta.css'
 
 function Cuenta() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { search } = useSearch()
+  const { showToast } = useToast()
   const restaurant = restaurants.find((r) => r.id === id) ?? restaurants[0]
   const [rating, setRating] = useState(0)
   const [enviado, setEnviado] = useState(false)
 
   function handleSubmit() {
     setEnviado(true)
+    showToast('Gracias por tu calificación')
     setTimeout(() => navigate('/home'), 1200)
   }
 

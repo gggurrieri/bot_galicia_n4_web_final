@@ -25,6 +25,11 @@ function Login() {
 
   return (
     <div className="login">
+      <div className="login__brand">
+        <p className="login__brand-mark">Piatto</p>
+        <p className="login__brand-tag">Reservá tu mesa en Palermo</p>
+      </div>
+
       <div className="login__photo">
         <img src={loginPhoto} alt="" />
       </div>

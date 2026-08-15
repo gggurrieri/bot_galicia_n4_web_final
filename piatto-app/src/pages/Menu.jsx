@@ -3,7 +3,7 @@ import TabBar from '../components/TabBar.jsx'
 import './Menu.css'
 
 const menuItems = [
-  { label: 'Mi cuenta', to: '/cuenta/il-quotidiano' },
+  { label: 'Mis reservas', to: '/mis-reservas' },
   { label: 'Favoritos', to: '/favoritos' },
   { label: 'Configuración', comingSoon: true },
   { label: 'Cerrar sesión', to: '/' },

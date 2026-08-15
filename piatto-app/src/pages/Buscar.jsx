@@ -2,13 +2,45 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BackButton from '../components/BackButton.jsx'
 import Stepper from '../components/Stepper.jsx'
-import { useSearch } from '../context/SearchContext.jsx'
+import { useSearch, formatFecha } from '../context/SearchContext.jsx'
+import { useToast } from '../context/ToastContext.jsx'
 import './Buscar.css'
+
+const HORAS = [
+  '19:00',
+  '19:30',
+  '20:00',
+  '20:30',
+  '21:00',
+  '21:30',
+  '22:00',
+  '22:30',
+]
+
+function nextDays(count) {
+  const days = []
+  const base = new Date()
+  base.setHours(0, 0, 0, 0)
+  for (let i = 0; i < count; i += 1) {
+    const date = new Date(base)
+    date.setDate(base.getDate() + i)
+    const iso = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 10)
+    days.push(iso)
+  }
+  return days
+}
+
+const DIAS = nextDays(7)
 
 function Buscar() {
   const navigate = useNavigate()
   const { search, setSearch } = useSearch()
+  const { showToast } = useToast()
   const [ubicacion, setUbicacion] = useState(search.ubicacion)
+  const [fecha, setFecha] = useState(search.fecha)
+  const [hora, setHora] = useState(search.hora)
   const [adultos, setAdultos] = useState(search.adultos)
   const [menores, setMenores] = useState(search.menores)
   const [bebes, setBebes] = useState(search.bebes)
@@ -17,7 +49,17 @@ function Buscar() {
 
   function handleSubmit(event) {
     event.preventDefault()
-    setSearch({ ubicacion, adultos, menores, bebes, mesa, nota: nota.trim() })
+    setSearch({
+      ubicacion,
+      fecha,
+      hora,
+      adultos,
+      menores,
+      bebes,
+      mesa,
+      nota: nota.trim(),
+    })
+    showToast('Búsqueda actualizada')
     navigate('/home')
   }
 
@@ -40,6 +82,52 @@ function Buscar() {
             value={ubicacion}
             onChange={(event) => setUbicacion(event.target.value)}
           />
+        </section>
+
+        <section className="buscar__section">
+          <span className="buscar__section-label" id="fecha-label">
+            Fecha
+          </span>
+          <div
+            className="buscar__chip-row"
+            role="group"
+            aria-labelledby="fecha-label"
+          >
+            {DIAS.map((day) => (
+              <button
+                key={day}
+                type="button"
+                className={`buscar__chip${fecha === day ? ' buscar__chip--active' : ''}`}
+                aria-pressed={fecha === day}
+                onClick={() => setFecha(day)}
+              >
+                {formatFecha(day)}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="buscar__section">
+          <span className="buscar__section-label" id="hora-label">
+            Hora
+          </span>
+          <div
+            className="buscar__chip-row"
+            role="group"
+            aria-labelledby="hora-label"
+          >
+            {HORAS.map((slot) => (
+              <button
+                key={slot}
+                type="button"
+                className={`buscar__chip${hora === slot ? ' buscar__chip--active' : ''}`}
+                aria-pressed={hora === slot}
+                onClick={() => setHora(slot)}
+              >
+                {slot}
+              </button>
+            ))}
+          </div>
         </section>
 
         <section className="buscar__section">

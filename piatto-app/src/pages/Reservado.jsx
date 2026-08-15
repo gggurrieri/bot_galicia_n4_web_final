@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { restaurants } from '../data/restaurants.js'
-import { formatComensales, formatMesa, useSearch } from '../context/SearchContext.jsx'
+import {
+  formatComensales,
+  formatFecha,
+  formatMesa,
+  useSearch,
+} from '../context/SearchContext.jsx'
+import { useToast } from '../context/ToastContext.jsx'
 import './Reservado.css'
 
 const COUNTDOWN_START_SECONDS = 10 * 60
@@ -17,6 +23,7 @@ function Reservado() {
   const navigate = useNavigate()
   const restaurant = restaurants.find((r) => r.id === id) ?? restaurants[0]
   const { search } = useSearch()
+  const { showToast } = useToast()
   const [secondsLeft, setSecondsLeft] = useState(COUNTDOWN_START_SECONDS)
   const [confirmingCancel, setConfirmingCancel] = useState(false)
 
@@ -26,6 +33,16 @@ function Reservado() {
     return () => clearTimeout(timer)
   }, [secondsLeft])
 
+  function handleCancel() {
+    showToast('Reserva cancelada')
+    navigate('/home')
+  }
+
+  function handleLlegue() {
+    showToast('¡Que disfrutes la cena!')
+    navigate(`/cuenta/${restaurant.id}`)
+  }
+
   return (
     <div className="reservado">
       <div className="reservado__photo">
@@ -33,6 +50,9 @@ function Reservado() {
       </div>
 
       <h1 className="reservado__title">¡Reservaste!</h1>
+      <p className="reservado__datetime">
+        {formatFecha(search.fecha)} · {search.hora}
+      </p>
 
       <div className="reservado__card">
         <div className="reservado__card-thumb">
@@ -68,7 +88,7 @@ function Reservado() {
               <button
                 type="button"
                 className="reservado__button reservado__button--danger"
-                onClick={() => navigate('/home')}
+                onClick={handleCancel}
               >
                 Sí, cancelar
               </button>
@@ -86,7 +106,7 @@ function Reservado() {
             <button
               type="button"
               className="reservado__button reservado__button--solid"
-              onClick={() => navigate(`/cuenta/${restaurant.id}`)}
+              onClick={handleLlegue}
             >
               Llegué
             </button>

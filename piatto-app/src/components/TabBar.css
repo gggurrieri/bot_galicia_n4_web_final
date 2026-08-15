@@ -1,5 +1,5 @@
 .tab-bar {
-  background: var(--color-bar);
+  background: var(--color-surface);
   border-top-left-radius: var(--radius-md);
   border-top-right-radius: var(--radius-md);
   padding: 10px 10px max(10px, env(safe-area-inset-bottom));
@@ -29,14 +29,19 @@
 .tab-bar__icon {
   width: 20px;
   height: 21px;
-  object-fit: contain;
+  background-color: var(--color-text);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 .tab-bar__item--active {
-  color: var(--color-accent-yellow);
+  color: var(--color-gold);
 }
 
 .tab-bar__item--active .tab-bar__icon {
-  filter: invert(70%) sepia(80%) saturate(1000%) hue-rotate(2deg)
-    brightness(105%);
+  background-color: var(--color-gold);
 }

@@ -3,7 +3,7 @@
   height: 40px;
   border-radius: 50%;
   border: none;
-  background: var(--color-bar);
+  background: var(--color-surface);
   color: var(--color-text);
   display: flex;
   align-items: center;

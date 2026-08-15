@@ -18,19 +18,19 @@
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  background: var(--color-bar);
-  border: 2px solid var(--color-accent-yellow);
+  background: var(--color-surface);
+  border: 2px solid var(--color-gold);
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--font-display);
   font-size: 32px;
-  font-weight: 700;
 }
 
 .menu__name {
   margin: 0 0 24px;
-  font-size: 18px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 20px;
 }
 
 .menu__list {

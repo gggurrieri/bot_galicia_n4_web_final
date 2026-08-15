@@ -26,7 +26,14 @@ function TabBar() {
             aria-current={active ? 'page' : undefined}
             onClick={() => navigate(tab.to)}
           >
-            <img src={tab.icon} alt="" className="tab-bar__icon" />
+            <span
+              className="tab-bar__icon"
+              style={{
+                WebkitMaskImage: `url("${tab.icon}")`,
+                maskImage: `url("${tab.icon}")`,
+              }}
+              aria-hidden="true"
+            />
             <span>{tab.label}</span>
           </button>
         )

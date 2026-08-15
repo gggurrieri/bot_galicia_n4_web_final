@@ -14,7 +14,7 @@
   margin: 0;
   font-size: 56px;
   font-weight: 700;
-  color: var(--color-accent-yellow);
+  color: var(--color-gold);
 }
 
 .not-found__title {
@@ -31,9 +31,9 @@
 .not-found__button {
   height: 46px;
   padding: 0 24px;
-  border-radius: 26px;
+  border-radius: var(--radius-pill);
   border: none;
-  background: var(--color-accent-purple);
+  background: var(--color-primary);
   color: #fff;
   font-size: 16px;
   cursor: pointer;

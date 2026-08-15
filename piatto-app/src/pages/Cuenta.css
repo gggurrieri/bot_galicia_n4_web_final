@@ -16,7 +16,7 @@
 
 .cuenta__card {
   width: 100%;
-  background: var(--color-bar);
+  background: var(--color-surface);
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-md);
   padding: 16px;
@@ -110,7 +110,7 @@
   max-width: 260px;
   height: 46px;
   border-radius: var(--radius-md);
-  background: var(--color-accent-purple);
+  background: var(--color-primary);
   border: none;
   color: #fff;
   font-size: 16px;
