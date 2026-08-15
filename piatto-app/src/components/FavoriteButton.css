@@ -1,0 +1,25 @@
+.favorite-button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.favorite-button img {
+  width: 13px;
+  height: 13px;
+}
+
+.favorite-button:active {
+  transform: scale(0.9);
+}
+
+.favorite-button--active {
+  background: #ff4d6d;
+}

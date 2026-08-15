@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import mapPalermo from '../assets/images/map-palermo.png'
 import BackButton from '../components/BackButton.jsx'
+import FavoriteButton from '../components/FavoriteButton.jsx'
 import Stars from '../components/Stars.jsx'
 import TabBar from '../components/TabBar.jsx'
 import { restaurants } from '../data/restaurants.js'
@@ -35,7 +36,10 @@ function Reserva() {
 
         <div className="reserva__card-bottom">
           <div className="reserva__card-info">
-            <p className="reserva__card-name">{restaurant.name}</p>
+            <div className="reserva__card-heading">
+              <p className="reserva__card-name">{restaurant.name}</p>
+              <FavoriteButton restaurantId={restaurant.id} />
+            </div>
             <p className="reserva__card-category">{restaurant.description}</p>
             <Stars rating={restaurant.rating} />
           </div>

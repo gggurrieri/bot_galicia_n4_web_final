@@ -49,18 +49,7 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.favoritos__heart img {
-  width: 13px;
-  height: 13px;
+  z-index: 1;
 }
 
 .favoritos__card-info {

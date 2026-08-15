@@ -6,6 +6,7 @@ import catPizza from '../assets/categories/pizza.png'
 import catEmpanadas from '../assets/categories/empanadas.png'
 import catAsado from '../assets/categories/asado.png'
 import catBurger from '../assets/categories/burger.png'
+import FavoriteButton from '../components/FavoriteButton.jsx'
 import Stars from '../components/Stars.jsx'
 import TabBar from '../components/TabBar.jsx'
 import { restaurants, categories } from '../data/restaurants.js'
@@ -30,6 +31,10 @@ function Home() {
   const filteredRestaurants = restaurants.filter(
     (r) => r.categoryId === selectedCategory,
   )
+
+  function goToRestaurant(id) {
+    navigate(`/reserva/${id}`)
+  }
 
   return (
     <div className="home">
@@ -67,13 +72,24 @@ function Home() {
       {filteredRestaurants.length > 0 ? (
         <div className="home__restaurants">
           {filteredRestaurants.map((restaurant) => (
-            <button
+            <div
               key={restaurant.id}
-              type="button"
               className="home__restaurant-card"
-              onClick={() => navigate(`/reserva/${restaurant.id}`)}
+              role="button"
+              tabIndex={0}
+              onClick={() => goToRestaurant(restaurant.id)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault()
+                  goToRestaurant(restaurant.id)
+                }
+              }}
             >
               <img src={restaurant.cardImage} alt={restaurant.name} />
+              <FavoriteButton
+                restaurantId={restaurant.id}
+                className="home__restaurant-card-favorite"
+              />
               <div className="home__restaurant-card-info">
                 <div>
                   <p className="home__restaurant-card-name">
@@ -85,7 +101,7 @@ function Home() {
                 </div>
                 <Stars rating={restaurant.rating} />
               </div>
-            </button>
+            </div>
           ))}
         </div>
       ) : (

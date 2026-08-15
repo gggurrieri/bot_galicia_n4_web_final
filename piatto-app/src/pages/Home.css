@@ -87,11 +87,13 @@
   gap: 7px;
   padding: 0 10px 10px;
   overflow-x: auto;
+  scroll-snap-type: x proximity;
 }
 
 .home__restaurant-card {
   position: relative;
   flex-shrink: 0;
+  scroll-snap-align: start;
   width: 245px;
   height: 144px;
   border-radius: var(--radius-md);
@@ -101,6 +103,13 @@
   padding: 0;
   cursor: pointer;
   background: #fff;
+}
+
+.home__restaurant-card-favorite {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
 }
 
 .home__restaurant-card > img {

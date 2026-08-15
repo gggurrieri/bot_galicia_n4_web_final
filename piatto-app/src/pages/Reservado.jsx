@@ -18,6 +18,7 @@ function Reservado() {
   const restaurant = restaurants.find((r) => r.id === id) ?? restaurants[0]
   const { search } = useSearch()
   const [secondsLeft, setSecondsLeft] = useState(COUNTDOWN_START_SECONDS)
+  const [confirmingCancel, setConfirmingCancel] = useState(false)
 
   useEffect(() => {
     if (secondsLeft <= 0) return
@@ -53,22 +54,44 @@ function Reservado() {
           {formatTime(secondsLeft)} <span>min</span>
         </p>
 
-        <div className="reservado__actions">
-          <button
-            type="button"
-            className="reservado__button reservado__button--ghost"
-            onClick={() => navigate('/home')}
-          >
-            Cancelar
-          </button>
-          <button
-            type="button"
-            className="reservado__button reservado__button--solid"
-            onClick={() => navigate(`/cuenta/${restaurant.id}`)}
-          >
-            Llegué
-          </button>
-        </div>
+        {confirmingCancel ? (
+          <div className="reservado__confirm">
+            <p className="reservado__confirm-text">¿Cancelar la reserva?</p>
+            <div className="reservado__actions">
+              <button
+                type="button"
+                className="reservado__button reservado__button--ghost"
+                onClick={() => setConfirmingCancel(false)}
+              >
+                No, volver
+              </button>
+              <button
+                type="button"
+                className="reservado__button reservado__button--danger"
+                onClick={() => navigate('/home')}
+              >
+                Sí, cancelar
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="reservado__actions">
+            <button
+              type="button"
+              className="reservado__button reservado__button--ghost"
+              onClick={() => setConfirmingCancel(true)}
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              className="reservado__button reservado__button--solid"
+              onClick={() => navigate(`/cuenta/${restaurant.id}`)}
+            >
+              Llegué
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
