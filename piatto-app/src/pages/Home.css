@@ -1,0 +1,241 @@
+.home {
+  min-height: 100svh;
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-top: 20px;
+}
+
+.home__header {
+  padding: 0 16px;
+}
+
+.home__eyebrow {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.home__heading {
+  margin: 2px 0 0;
+  font-size: 26px;
+}
+
+.home__search {
+  margin: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 10px 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.home__search-primary {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.home__search-secondary {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.home__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.home__section-title {
+  margin: 0;
+  padding: 0 16px;
+  font-size: 19px;
+}
+
+.home__featured-row {
+  display: flex;
+  gap: 10px;
+  padding: 0 16px 4px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+
+.home__featured-card {
+  position: relative;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  width: 200px;
+  height: 220px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: var(--color-surface-2);
+}
+
+.home__featured-card > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home__featured-card-favorite {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+}
+
+.home__featured-card-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent, rgba(23, 17, 13, 0.9) 80%);
+  padding: 24px 12px 12px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.home__featured-card-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+
+.home__categories {
+  display: flex;
+  gap: 11px;
+  padding: 0 16px;
+  overflow-x: auto;
+}
+
+.home__category {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 69px;
+}
+
+.home__category img {
+  width: 69px;
+  height: 69px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid transparent;
+}
+
+.home__category--active {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.home__category--active img {
+  border-color: var(--color-gold);
+}
+
+.home__map {
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  height: 280px;
+  margin: 0 16px;
+}
+
+.home__map img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.home__empty {
+  margin: 0;
+  padding: 8px 16px 24px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.home__restaurants {
+  display: flex;
+  gap: 7px;
+  padding: 0 16px 20px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+
+.home__restaurant-card {
+  position: relative;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  width: 245px;
+  height: 144px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: var(--color-surface-2);
+}
+
+.home__restaurant-card-favorite {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+}
+
+.home__restaurant-card > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home__restaurant-card-info {
+  position: relative;
+  z-index: 1;
+  margin-top: 93px;
+  height: 51px;
+  background: rgba(23, 17, 13, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 15px;
+  color: #fff;
+  text-align: left;
+}
+
+.home__restaurant-card-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 16px;
+}
+
+.home__restaurant-card-category {
+  margin: 0;
+  font-size: 12px;
+}

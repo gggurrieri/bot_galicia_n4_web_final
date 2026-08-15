@@ -1,0 +1,102 @@
+:root {
+  /* Ground */
+  --color-bg: #17110d;
+  --color-surface: #241a14;
+  --color-surface-2: #302319;
+  --color-border: #43332a;
+  --color-border-soft: #6b5647;
+
+  /* Text */
+  --color-text: #f6ece0;
+  --color-text-muted: #b7a292;
+
+  /* Accents — embers, gold, wine */
+  --color-primary: #e8823a;
+  --color-primary-strong: #cf6c28;
+  --color-gold: #e8b23c;
+  --color-flame: #d94f3d;
+  --color-flame-strong: #c23f30;
+  --color-error-text: #ffb199;
+
+  /* Form fields sit on a warm ivory, not stark white */
+  --color-input-bg: #f3e8da;
+  --color-input-text: #241a14;
+  --color-input-placeholder: rgba(36, 26, 20, 0.5);
+
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --radius-pill: 999px;
+
+  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman',
+    serif;
+  --font-sans: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans',
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  font-family: inherit;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
