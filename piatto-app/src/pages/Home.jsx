@@ -25,6 +25,14 @@ function Home() {
 
   return (
     <div className="home">
+      <button
+        type="button"
+        className="home__search"
+        onClick={() => navigate('/buscar')}
+      >
+        <span>Palermo, Buenos Aires · 2 Adultos</span>
+      </button>
+
       <div className="home__categories">
         {categories.map((category) => (
           <button
