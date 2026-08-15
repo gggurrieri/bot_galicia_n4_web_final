@@ -1,17 +1,22 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import mapPalermo from '../assets/images/map-palermo.png'
+import BackButton from '../components/BackButton.jsx'
 import Stars from '../components/Stars.jsx'
 import TabBar from '../components/TabBar.jsx'
 import { restaurants } from '../data/restaurants.js'
+import { formatComensales, formatMesa, useSearch } from '../context/SearchContext.jsx'
 import './Reserva.css'
 
 function Reserva() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { search } = useSearch()
   const restaurant = restaurants.find((r) => r.id === id) ?? restaurants[0]
 
   return (
     <div className="reserva">
+      <BackButton to="/home" />
+
       <div className="reserva__map">
         <img src={mapPalermo} alt="Mapa de Palermo" />
       </div>
@@ -22,9 +27,9 @@ function Reserva() {
             <img src={restaurant.detailImage} alt={restaurant.name} />
           </div>
           <div className="reserva__card-details">
-            <p>{restaurant.mesa}</p>
-            <p>{restaurant.personas}</p>
-            <p>{restaurant.pedido}</p>
+            <p>{formatMesa(search.mesa)}</p>
+            <p>{formatComensales(search)}</p>
+            <p>{search.nota || 'Sin pedido especial'}</p>
           </div>
         </div>
 

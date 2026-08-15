@@ -2,11 +2,15 @@
   background: var(--color-bar);
   border-top-left-radius: var(--radius-md);
   border-top-right-radius: var(--radius-md);
-  padding: 10px;
+  padding: 10px 10px max(10px, env(safe-area-inset-bottom));
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  z-index: 2;
 }
 
 .tab-bar__item {

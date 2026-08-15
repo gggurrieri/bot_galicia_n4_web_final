@@ -3,11 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import starFull from '../assets/icons/star-full.svg'
 import BackButton from '../components/BackButton.jsx'
 import { restaurants } from '../data/restaurants.js'
+import { formatComensales, formatMesa, useSearch } from '../context/SearchContext.jsx'
 import './Cuenta.css'
 
 function Cuenta() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { search } = useSearch()
   const restaurant = restaurants.find((r) => r.id === id) ?? restaurants[0]
   const [rating, setRating] = useState(0)
   const [enviado, setEnviado] = useState(false)
@@ -30,8 +32,8 @@ function Cuenta() {
           </div>
           <div className="cuenta__card-details">
             <p className="cuenta__restaurant-name">{restaurant.name}</p>
-            <p>{restaurant.mesa}</p>
-            <p>{restaurant.personas}</p>
+            <p>{formatMesa(search.mesa)}</p>
+            <p>{formatComensales(search)}</p>
           </div>
         </div>
         <p className="cuenta__total">Total $ x.xxx</p>

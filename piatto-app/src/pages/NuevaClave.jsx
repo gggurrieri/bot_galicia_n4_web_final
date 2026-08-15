@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BackButton from '../components/BackButton.jsx'
+import PasswordField from '../components/PasswordField.jsx'
 import './NuevaClave.css'
 
 function NuevaClave() {
@@ -37,22 +38,30 @@ function NuevaClave() {
       </p>
 
       <form className="nueva-clave__form" onSubmit={handleSubmit} noValidate>
-        <input
-          className="nueva-clave__input"
-          type="password"
+        <PasswordField
+          id="nueva-clave"
+          label="Nueva clave"
           placeholder="Nueva clave"
+          inputClassName="nueva-clave__input"
+          autoComplete="new-password"
           value={clave}
           onChange={(event) => setClave(event.target.value)}
         />
-        <input
-          className="nueva-clave__input"
-          type="password"
+        <PasswordField
+          id="repetir-clave"
+          label="Repetir clave"
           placeholder="Repetir clave"
+          inputClassName="nueva-clave__input"
+          autoComplete="new-password"
           value={repetirClave}
           onChange={(event) => setRepetirClave(event.target.value)}
         />
 
-        {error && <p className="nueva-clave__error">{error}</p>}
+        {error && (
+          <p className="nueva-clave__error" role="alert">
+            {error}
+          </p>
+        )}
 
         <button
           className="nueva-clave__submit"

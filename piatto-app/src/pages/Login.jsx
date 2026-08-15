@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import loginPhoto from '../assets/images/login-photo.png'
 import iconLog from '../assets/icons/icon-log.svg'
+import PasswordField from '../components/PasswordField.jsx'
 import './Login.css'
 
 function Login() {
@@ -29,22 +30,34 @@ function Login() {
       </div>
 
       <form className="login__form" onSubmit={handleSubmit} noValidate>
+        <label htmlFor="login-usuario" className="visually-hidden">
+          Usuario
+        </label>
         <input
+          id="login-usuario"
           className="login__input"
           type="text"
           placeholder="Usuario"
+          autoComplete="username"
           value={usuario}
           onChange={(event) => setUsuario(event.target.value)}
         />
-        <input
-          className="login__input"
-          type="password"
+
+        <PasswordField
+          id="login-clave"
+          label="Clave"
           placeholder="Clave"
+          inputClassName="login__input"
+          autoComplete="current-password"
           value={clave}
           onChange={(event) => setClave(event.target.value)}
         />
 
-        {error && <p className="login__error">{error}</p>}
+        {error && (
+          <p className="login__error" role="alert">
+            {error}
+          </p>
+        )}
 
         <button
           className="login__forgot"

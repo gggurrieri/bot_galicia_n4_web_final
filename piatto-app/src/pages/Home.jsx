@@ -9,6 +9,7 @@ import catBurger from '../assets/categories/burger.png'
 import Stars from '../components/Stars.jsx'
 import TabBar from '../components/TabBar.jsx'
 import { restaurants, categories } from '../data/restaurants.js'
+import { formatComensales, useSearch } from '../context/SearchContext.jsx'
 import './Home.css'
 
 const categoryImages = {
@@ -22,6 +23,13 @@ const categoryImages = {
 function Home() {
   const [selectedCategory, setSelectedCategory] = useState('pastas')
   const navigate = useNavigate()
+  const { search } = useSearch()
+
+  const selectedLabel =
+    categories.find((c) => c.id === selectedCategory)?.label ?? ''
+  const filteredRestaurants = restaurants.filter(
+    (r) => r.categoryId === selectedCategory,
+  )
 
   return (
     <div className="home">
@@ -30,7 +38,9 @@ function Home() {
         className="home__search"
         onClick={() => navigate('/buscar')}
       >
-        <span>Palermo, Buenos Aires · 2 Adultos</span>
+        <span>
+          {search.ubicacion} · {formatComensales(search)}
+        </span>
       </button>
 
       <div className="home__categories">
@@ -41,6 +51,7 @@ function Home() {
             className={`home__category${
               selectedCategory === category.id ? ' home__category--active' : ''
             }`}
+            aria-pressed={selectedCategory === category.id}
             onClick={() => setSelectedCategory(category.id)}
           >
             <img src={categoryImages[category.id]} alt="" />
@@ -53,27 +64,36 @@ function Home() {
         <img src={mapPalermo} alt="Mapa de Palermo" />
       </div>
 
-      <div className="home__restaurants">
-        {restaurants.map((restaurant) => (
-          <button
-            key={restaurant.id}
-            type="button"
-            className="home__restaurant-card"
-            onClick={() => navigate(`/reserva/${restaurant.id}`)}
-          >
-            <img src={restaurant.cardImage} alt={restaurant.name} />
-            <div className="home__restaurant-card-info">
-              <div>
-                <p className="home__restaurant-card-name">{restaurant.name}</p>
-                <p className="home__restaurant-card-category">
-                  {restaurant.category}
-                </p>
+      {filteredRestaurants.length > 0 ? (
+        <div className="home__restaurants">
+          {filteredRestaurants.map((restaurant) => (
+            <button
+              key={restaurant.id}
+              type="button"
+              className="home__restaurant-card"
+              onClick={() => navigate(`/reserva/${restaurant.id}`)}
+            >
+              <img src={restaurant.cardImage} alt={restaurant.name} />
+              <div className="home__restaurant-card-info">
+                <div>
+                  <p className="home__restaurant-card-name">
+                    {restaurant.name}
+                  </p>
+                  <p className="home__restaurant-card-category">
+                    {restaurant.category}
+                  </p>
+                </div>
+                <Stars rating={restaurant.rating} />
               </div>
-              <Stars rating={restaurant.rating} />
-            </div>
-          </button>
-        ))}
-      </div>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <p className="home__empty">
+          Todavía no tenemos restaurantes de {selectedLabel.toLowerCase()}{' '}
+          cerca tuyo.
+        </p>
+      )}
 
       <TabBar />
     </div>

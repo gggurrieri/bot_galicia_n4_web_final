@@ -75,6 +75,23 @@
   font-weight: 700;
 }
 
+.buscar__textarea {
+  width: 100%;
+  border-radius: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  background: #ffffff;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-family: var(--font-sans);
+  color: #000;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.buscar__textarea::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
 .buscar__submit {
   width: 100%;
   height: 49px;

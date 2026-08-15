@@ -5,7 +5,7 @@ import './Menu.css'
 const menuItems = [
   { label: 'Mi cuenta', to: '/cuenta/il-quotidiano' },
   { label: 'Favoritos', to: '/favoritos' },
-  { label: 'Configuración', to: '/menu' },
+  { label: 'Configuración', comingSoon: true },
   { label: 'Cerrar sesión', to: '/' },
 ]
 
@@ -24,9 +24,13 @@ function Menu() {
               key={item.label}
               type="button"
               className="menu__item"
-              onClick={() => navigate(item.to)}
+              disabled={item.comingSoon}
+              onClick={() => item.to && navigate(item.to)}
             >
               {item.label}
+              {item.comingSoon && (
+                <span className="menu__badge">Próximamente</span>
+              )}
             </button>
           ))}
         </nav>

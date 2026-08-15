@@ -35,6 +35,12 @@
   color: rgba(0, 0, 0, 0.4);
 }
 
+.registro__error {
+  margin: 0;
+  color: #ff8a8a;
+  font-size: 14px;
+}
+
 .registro__submit {
   width: 100%;
   height: 49px;

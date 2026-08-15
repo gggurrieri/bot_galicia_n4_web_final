@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import './App.css'
+import { SearchProvider } from './context/SearchContext.jsx'
 import Login from './pages/Login.jsx'
 import Registro from './pages/Registro.jsx'
 import RecuperarClave from './pages/RecuperarClave.jsx'
@@ -14,21 +15,23 @@ import Menu from './pages/Menu.jsx'
 
 function App() {
   return (
-    <div className="phone">
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/registro" element={<Registro />} />
-        <Route path="/recuperar-clave" element={<RecuperarClave />} />
-        <Route path="/nueva-clave" element={<NuevaClave />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/buscar" element={<Buscar />} />
-        <Route path="/reserva/:id" element={<Reserva />} />
-        <Route path="/reservado/:id" element={<Reservado />} />
-        <Route path="/cuenta/:id" element={<Cuenta />} />
-        <Route path="/favoritos" element={<Favoritos />} />
-        <Route path="/menu" element={<Menu />} />
-      </Routes>
-    </div>
+    <SearchProvider>
+      <div className="phone">
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/registro" element={<Registro />} />
+          <Route path="/recuperar-clave" element={<RecuperarClave />} />
+          <Route path="/nueva-clave" element={<NuevaClave />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/buscar" element={<Buscar />} />
+          <Route path="/reserva/:id" element={<Reserva />} />
+          <Route path="/reservado/:id" element={<Reservado />} />
+          <Route path="/cuenta/:id" element={<Cuenta />} />
+          <Route path="/favoritos" element={<Favoritos />} />
+          <Route path="/menu" element={<Menu />} />
+        </Routes>
+      </div>
+    </SearchProvider>
   )
 }
 

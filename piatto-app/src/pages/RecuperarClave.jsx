@@ -30,15 +30,24 @@ function RecuperarClave() {
       </p>
 
       <form className="recuperar__form" onSubmit={handleSubmit} noValidate>
+        <label htmlFor="recuperar-usuario" className="visually-hidden">
+          Usuario o email
+        </label>
         <input
+          id="recuperar-usuario"
           className="recuperar__input"
           type="text"
+          autoComplete="username"
           placeholder="Usuario o email"
           value={usuario}
           onChange={(event) => setUsuario(event.target.value)}
         />
 
-        {error && <p className="recuperar__error">{error}</p>}
+        {error && (
+          <p className="recuperar__error" role="alert">
+            {error}
+          </p>
+        )}
 
         <button className="recuperar__submit" type="submit">
           Enviar código

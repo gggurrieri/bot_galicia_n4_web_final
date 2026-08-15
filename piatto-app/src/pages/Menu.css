@@ -41,6 +41,9 @@
 
 .menu__item {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   text-align: left;
   background: none;
   border: none;
@@ -49,4 +52,17 @@
   font-size: 17px;
   padding: 18px 4px;
   cursor: pointer;
+}
+
+.menu__item:disabled {
+  color: var(--color-text-muted);
+  cursor: default;
+}
+
+.menu__badge {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 3px 8px;
 }

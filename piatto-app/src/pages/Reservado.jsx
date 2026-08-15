@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { restaurants } from '../data/restaurants.js'
+import { formatComensales, formatMesa, useSearch } from '../context/SearchContext.jsx'
 import './Reservado.css'
 
 const COUNTDOWN_START_SECONDS = 10 * 60
@@ -15,6 +16,7 @@ function Reservado() {
   const { id } = useParams()
   const navigate = useNavigate()
   const restaurant = restaurants.find((r) => r.id === id) ?? restaurants[0]
+  const { search } = useSearch()
   const [secondsLeft, setSecondsLeft] = useState(COUNTDOWN_START_SECONDS)
 
   useEffect(() => {
@@ -37,9 +39,9 @@ function Reservado() {
         </div>
         <div className="reservado__card-details">
           <p className="reservado__restaurant-name">{restaurant.name}</p>
-          <p>{restaurant.mesa}</p>
-          <p>{restaurant.personas}</p>
-          <p>{restaurant.pedido}</p>
+          <p>{formatMesa(search.mesa)}</p>
+          <p>{formatComensales(search)}</p>
+          <p>{search.nota || 'Sin pedido especial'}</p>
         </div>
       </div>
 

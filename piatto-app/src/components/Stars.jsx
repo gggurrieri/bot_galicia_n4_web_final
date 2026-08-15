@@ -8,7 +8,7 @@ function Stars({ rating }) {
   const empty = 5 - full - (hasHalf ? 1 : 0)
 
   return (
-    <div className="stars">
+    <div className="stars" role="img" aria-label={`Calificación: ${rating} de 5`}>
       {Array.from({ length: full }).map((_, i) => (
         <img key={`f${i}`} src={starFull} alt="" className="star" />
       ))}
