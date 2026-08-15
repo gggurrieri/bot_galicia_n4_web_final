@@ -1,0 +1,116 @@
+.home {
+  min-height: 100svh;
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 26px;
+}
+
+.home__categories {
+  display: flex;
+  gap: 11px;
+  padding: 0 10px;
+  overflow-x: auto;
+}
+
+.home__category {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 69px;
+}
+
+.home__category img {
+  width: 69px;
+  height: 69px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid transparent;
+}
+
+.home__category--active {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.home__category--active img {
+  border-color: var(--color-accent-yellow);
+}
+
+.home__map {
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  height: 320px;
+  margin: 0 10px;
+}
+
+.home__map img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.home__restaurants {
+  display: flex;
+  gap: 7px;
+  padding: 0 10px 10px;
+  overflow-x: auto;
+}
+
+.home__restaurant-card {
+  position: relative;
+  flex-shrink: 0;
+  width: 245px;
+  height: 144px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: #fff;
+}
+
+.home__restaurant-card > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home__restaurant-card-info {
+  position: relative;
+  z-index: 1;
+  margin-top: 93px;
+  height: 51px;
+  background: rgba(4, 4, 4, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 15px;
+  color: #fff;
+  text-align: left;
+}
+
+.home__restaurant-card-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.home__restaurant-card-category {
+  margin: 0;
+  font-size: 12px;
+}

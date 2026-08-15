@@ -1,0 +1,14 @@
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.star {
+  width: 13px;
+  height: 13px;
+}
+
+.star-empty {
+  opacity: 0.3;
+}

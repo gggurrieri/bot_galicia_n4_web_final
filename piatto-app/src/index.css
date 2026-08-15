@@ -1,0 +1,49 @@
+:root {
+  --color-bg: #030303;
+  --color-surface: #1c1c1c;
+  --color-bar: #353434;
+  --color-border: #404040;
+  --color-border-soft: #777575;
+  --color-accent-purple: #8e2cda;
+  --color-accent-yellow: #f5b301;
+  --color-text: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.6);
+
+  --radius-lg: 20px;
+  --radius-md: 15px;
+  --radius-sm: 10px;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI',
+    Roboto, Helvetica, Arial, sans-serif;
+
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0d0d0d;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  font-family: inherit;
+}
+
+img {
+  -webkit-user-drag: none;
+}
