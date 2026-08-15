@@ -27,3 +27,12 @@
   height: 21px;
   object-fit: contain;
 }
+
+.tab-bar__item--active {
+  color: var(--color-accent-yellow);
+}
+
+.tab-bar__item--active .tab-bar__icon {
+  filter: invert(70%) sepia(80%) saturate(1000%) hue-rotate(2deg)
+    brightness(105%);
+}

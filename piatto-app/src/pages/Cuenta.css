@@ -1,0 +1,123 @@
+.cuenta {
+  min-height: 100svh;
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 16px 40px;
+}
+
+.cuenta__title {
+  margin: 8px 0 0;
+  font-size: 20px;
+  text-align: center;
+}
+
+.cuenta__card {
+  width: 100%;
+  background: var(--color-bar);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cuenta__card-top {
+  display: flex;
+  gap: 16px;
+}
+
+.cuenta__card-thumb {
+  width: 110px;
+  height: 90px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.cuenta__card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cuenta__card-details {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.cuenta__card-details p {
+  margin: 0;
+}
+
+.cuenta__restaurant-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 2px !important;
+}
+
+.cuenta__total {
+  margin: 0;
+  text-align: right;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.cuenta__rating {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.cuenta__rating-title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.cuenta__stars {
+  display: flex;
+  gap: 8px;
+}
+
+.cuenta__star-button {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.cuenta__star {
+  width: 28px;
+  height: 28px;
+  opacity: 0.3;
+}
+
+.cuenta__star--active {
+  opacity: 1;
+}
+
+.cuenta__submit {
+  width: 100%;
+  max-width: 260px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent-purple);
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.cuenta__submit:disabled {
+  opacity: 0.7;
+  cursor: default;
+}

@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import mapPalermo from '../assets/images/map-palermo.png'
 import Stars from '../components/Stars.jsx'
 import TabBar from '../components/TabBar.jsx'
@@ -8,7 +7,7 @@ import './Reserva.css'
 
 function Reserva() {
   const { id } = useParams()
-  const [reservado, setReservado] = useState(false)
+  const navigate = useNavigate()
   const restaurant = restaurants.find((r) => r.id === id) ?? restaurants[0]
 
   return (
@@ -39,9 +38,9 @@ function Reserva() {
           <button
             type="button"
             className="reserva__button"
-            onClick={() => setReservado(true)}
+            onClick={() => navigate(`/reservado/${restaurant.id}`)}
           >
-            {reservado ? 'Reservado ✓' : 'Reservar'}
+            Reservar
           </button>
         </div>
       </div>

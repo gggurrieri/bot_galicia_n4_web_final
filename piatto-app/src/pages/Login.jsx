@@ -27,7 +27,11 @@ function Login() {
         </button>
       </form>
 
-      <button className="login__register" type="button">
+      <button
+        className="login__register"
+        type="button"
+        onClick={() => navigate('/registro')}
+      >
         Registrarse
       </button>
     </div>
